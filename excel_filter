@@ -1,0 +1,35 @@
+import pandas as pd
+
+# Load your Excel data into a DataFrame
+excel_file = "path_to_your_excel_file.xlsx"
+df = pd.read_excel(excel_file)
+
+# Get the user provided number
+user_number = input("Enter filter value: ")
+
+# Filter the DataFrame based on the user-provided number and current employee status
+filtered_df = df[(df['Employee Number'] == int(user_number)) & (df['Employee Status'] == 'Current')]
+
+# Select only the required columns
+filtered_df = filtered_df[['Employee Name', 'Department Number']]
+
+# Write the filtered data to a new Excel file
+output_file = "filtered_data.xlsx"
+filtered_df.to_excel(output_file, index=False)
+
+print("Filtered data saved to:", output_file)
+
+##########################################################################
+
+
+import tkinter as tk
+
+# Create a new Tkinter window
+window = tk.Tk()
+
+# Add a label widget
+label = tk.Label(window, text="Hello, Tkinter!")
+label.pack()
+
+# Run the Tkinter event loop
+window.mainloop()
