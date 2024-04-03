@@ -54,6 +54,17 @@ window.withdraw
 excel_file = filedialog.askopenfilename()
 df = pd.read_excel(excel_file)
 
+# Define row ranges
+ranges = [(0, 999), (1000, 1999), (2000, 2999)]  # Example row ranges
+
+for i, (start, end) in enumerate(ranges):
+    # Read only the specified range
+    chunk = pd.read_excel(file_path, skiprows=start, nrows=end-start+1)
+    
+    # Process the chunk as desired
+    # For example, you could save each chunk to a separate file
+    chunk.to_excel(f'chunk_{i+1}.xlsx', index=False)
+
 # Get the user provided number
 user_number = input("Enter the employee number to filter: ")
 
