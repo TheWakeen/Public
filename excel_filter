@@ -33,3 +33,57 @@ label.pack()
 
 # Run the Tkinter event loop
 window.mainloop()
+
+# -*- coding: utf-8 -*-
+"""
+Spyder Editor
+
+This is a temporary script file.
+"""
+
+import tkinter as tk
+import pandas as pd
+import matplotlib.pyplot as plt
+from tkinter import filedialog
+
+window = tk.Tk()
+window.withdraw
+
+
+# Load your Excel data into a DataFrame
+excel_file = filedialog.askopenfilename()
+df = pd.read_excel(excel_file)
+
+# Get the user provided number
+user_number = input("Enter the employee number to filter: ")
+
+# Filter the DataFrame based on the user-provided number and current employee status
+filtered_df = df[(df['department number'] == int(user_number)) & (df['employee status'] == 'Y')]
+
+# Select only the required columns
+filtered_df = filtered_df[['name', 'department number']]
+
+# Write the filtered data to a new Excel file
+output_file = "filtered_data.xlsx"
+filtered_df.to_excel(output_file, index=False)
+
+print("Filtered data saved to:", output_file)
+
+# Group employees by department
+grouped = filtered_df.groupby('department number')['name'].apply(list)
+
+# Create a horizontal bar plot
+fig, ax = plt.subplots()
+for i, (department, employees) in enumerate(grouped.items()):
+    ax.barh(i, len(employees), color='skyblue')
+    for j, employee in enumerate(employees):
+        ax.text(len(employees) + 0.5, i + 0.1 * j, employee, va='bottom')
+
+# Customize the plot
+ax.set_yticks(range(len(grouped)))
+ax.set_yticklabels(grouped.index)
+ax.set_xlabel('Number of Employees')
+ax.set_ylabel('Department Number')
+ax.set_title('Employees by Department')
+
+plt.show()
